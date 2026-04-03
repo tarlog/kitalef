@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ad Travel</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  .total-box { font-size: 1.5em; font-weight: bold; }
+  .refund-box { font-size: 1.8em; font-weight: bold; }
+  input[type="range"] { width: 100%; }
+  .col-expected { background-color: #d4edda; border-radius: 8px; padding: 1em; }
+  .col-actual { background-color: #f8d7da; border-radius: 8px; padding: 1em; }
+</style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Refund Calculation</h1>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="col-expected">
+        <h3 class="text-center mb-3">Expected</h3>
+
+        <div class="card mb-3">
+          <div class="card-header">Premium Economy</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Price: <span id="ePremiumPriceVal">2854</span></label>
+              <input type="range" class="form-range" id="ePremiumPrice" min="0" max="5000" step="1" value="2854" oninput="update()">
+            </div>
+            <div>
+              <label class="form-label">Count</label>
+              <input type="number" class="form-control" id="ePremiumCount" min="0" value="2" oninput="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">Business</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Price: <span id="eBusinessPriceVal">4939</span></label>
+              <input type="range" class="form-range" id="eBusinessPrice" min="0" max="10000" step="1" value="4939" oninput="update()">
+            </div>
+            <div>
+              <label class="form-label">Count</label>
+              <input type="number" class="form-control" id="eBusinessCount" min="0" value="4" oninput="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">Fees</div>
+          <div class="card-body">
+            <input type="number" class="form-control" id="eFee" min="0" step="1" value="0" oninput="update()">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body text-center total-box">
+            Total: <span id="eTotal">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="col-actual">
+        <h3 class="text-center mb-3">Actual</h3>
+
+        <div class="card mb-3">
+          <div class="card-header">Premium Economy</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Price: <span id="aPremiumPriceVal">2085</span></label>
+              <input type="range" class="form-range" id="aPremiumPrice" min="0" max="5000" step="1" value="2085" oninput="update()">
+            </div>
+            <div>
+              <label class="form-label">Count</label>
+              <input type="number" class="form-control" id="aPremiumCount" min="0" value="2" oninput="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">Business</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Price: <span id="aBusinessPriceVal">4939</span></label>
+              <input type="range" class="form-range" id="aBusinessPrice" min="0" max="10000" step="1" value="4939" oninput="update()">
+            </div>
+            <div>
+              <label class="form-label">Count</label>
+              <input type="number" class="form-control" id="aBusinessCount" min="0" value="4" oninput="update()">
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">Fees</div>
+          <div class="card-body">
+            <input type="number" class="form-control" id="aFee" min="0" step="1" value="160" oninput="update()">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body text-center total-box">
+            Total: <span id="aTotal">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-body text-center refund-box">
+      Refund: <span id="refund">0</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+function calcTotal(prefix) {
+  return val(prefix + 'BusinessPrice') * val(prefix + 'BusinessCount')
+       - val(prefix + 'PremiumPrice') * val(prefix + 'PremiumCount')
+       + val(prefix + 'Fee');
+}
+
+function update() {
+  document.getElementById('ePremiumPriceVal').textContent = val('ePremiumPrice');
+  document.getElementById('eBusinessPriceVal').textContent = val('eBusinessPrice');
+  document.getElementById('aPremiumPriceVal').textContent = val('aPremiumPrice');
+  document.getElementById('aBusinessPriceVal').textContent = val('aBusinessPrice');
+
+  var eTotal = calcTotal('e');
+  var aTotal = calcTotal('a');
+  var refund = aTotal - eTotal;
+
+  document.getElementById('eTotal').textContent = eTotal.toFixed(2);
+  document.getElementById('aTotal').textContent = aTotal.toFixed(2);
+
+  var refundEl = document.getElementById('refund');
+  refundEl.textContent = refund.toFixed(2);
+  refundEl.style.color = refund === 0 ? 'green' : 'red';
+}
+
+update();
+</script>
+
+</body>
+</html>
