@@ -27,7 +27,7 @@
           <div class="card-header">Premium Economy</div>
           <div class="card-body">
             <div class="mb-3">
-              <label class="form-label">Price: <span id="ePremiumPriceVal">2854</span></label>
+              <label class="form-label">Price: <span id="ePremiumPriceVal">$2854</span></label>
               <input type="range" class="form-range" id="ePremiumPrice" min="0" max="5000" step="1" value="2854" oninput="update()">
             </div>
             <div>
@@ -41,7 +41,7 @@
           <div class="card-header">Business</div>
           <div class="card-body">
             <div class="mb-3">
-              <label class="form-label">Price: <span id="eBusinessPriceVal">4939</span></label>
+              <label class="form-label">Price: <span id="eBusinessPriceVal">$4939</span></label>
               <input type="range" class="form-range" id="eBusinessPrice" min="0" max="10000" step="1" value="4939" oninput="update()">
             </div>
             <div>
@@ -74,7 +74,7 @@
           <div class="card-header">Premium Economy</div>
           <div class="card-body">
             <div class="mb-3">
-              <label class="form-label">Price: <span id="aPremiumPriceVal">2085</span></label>
+              <label class="form-label">Price: <span id="aPremiumPriceVal">$2085</span></label>
               <input type="range" class="form-range" id="aPremiumPrice" min="0" max="5000" step="1" value="2085" oninput="update()">
             </div>
             <div>
@@ -88,7 +88,7 @@
           <div class="card-header">Business</div>
           <div class="card-body">
             <div class="mb-3">
-              <label class="form-label">Price: <span id="aBusinessPriceVal">4939</span></label>
+              <label class="form-label">Price: <span id="aBusinessPriceVal">$4939</span></label>
               <input type="range" class="form-range" id="aBusinessPrice" min="0" max="10000" step="1" value="4939" oninput="update()">
             </div>
             <div>
@@ -114,6 +114,8 @@
     </div>
   </div>
 
+  <div class="alert alert-info mt-3">Total = (Business price × count) − (Premium Economy price × count) + Fees</div>
+
   <div class="card mt-4">
     <div class="card-body text-center refund-box">
       Refund: <span id="refund">0</span>
@@ -131,20 +133,20 @@ function calcTotal(prefix) {
 }
 
 function update() {
-  document.getElementById('ePremiumPriceVal').textContent = val('ePremiumPrice');
-  document.getElementById('eBusinessPriceVal').textContent = val('eBusinessPrice');
-  document.getElementById('aPremiumPriceVal').textContent = val('aPremiumPrice');
-  document.getElementById('aBusinessPriceVal').textContent = val('aBusinessPrice');
+  document.getElementById('ePremiumPriceVal').textContent = '$' + val('ePremiumPrice');
+  document.getElementById('eBusinessPriceVal').textContent = '$' + val('eBusinessPrice');
+  document.getElementById('aPremiumPriceVal').textContent = '$' + val('aPremiumPrice');
+  document.getElementById('aBusinessPriceVal').textContent = '$' + val('aBusinessPrice');
 
   var eTotal = calcTotal('e');
   var aTotal = calcTotal('a');
   var refund = aTotal - eTotal;
 
-  document.getElementById('eTotal').textContent = eTotal.toFixed(2);
-  document.getElementById('aTotal').textContent = aTotal.toFixed(2);
+  document.getElementById('eTotal').textContent = '$' + eTotal.toFixed(2);
+  document.getElementById('aTotal').textContent = '$' + aTotal.toFixed(2);
 
   var refundEl = document.getElementById('refund');
-  refundEl.textContent = refund.toFixed(2);
+  refundEl.textContent = '$' + refund.toFixed(2);
   refundEl.style.color = refund === 0 ? 'green' : 'red';
 }
 
